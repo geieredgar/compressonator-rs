@@ -223,10 +223,14 @@ pub type FeedbackProc = ::std::option::Option<
 >;
 
 extern "C" {
-    pub fn CMP_ConvertTexture(
+    #[link_name = "CMP_ConvertTexture"]
+    pub fn convert_texture(
         source_texture: *mut Texture,
         dest_texture: *mut Texture,
         options: *const CompressOptions,
         feedback_proc: FeedbackProc,
     ) -> Status;
+
+    #[link_name = "CMP_CalculateBufferSize"]
+    pub fn calculate_buffer_size(texture: *const Texture) -> u32;
 }
