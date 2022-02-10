@@ -1,0 +1,3 @@
+[submodule "compressonator-sys/build/compressonator"]
+	path = compressonator-sys/build/compressonator
+	url = https://github.com/GPUOpen-Tools/compressonator.git
