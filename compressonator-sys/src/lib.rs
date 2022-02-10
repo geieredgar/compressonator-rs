@@ -1,3 +1,5 @@
+use std::ptr::null_mut;
+
 use libc::{c_char, c_int, c_uint};
 
 pub type Status = c_uint;
@@ -144,8 +146,27 @@ pub struct Texture {
     pub mip_set: *mut libc::c_void,
 }
 
+impl Default for Texture {
+    fn default() -> Self {
+        Self {
+            size: Default::default(),
+            width: Default::default(),
+            height: Default::default(),
+            pitch: Default::default(),
+            format: Default::default(),
+            transcode_format: Default::default(),
+            block_height: Default::default(),
+            block_width: Default::default(),
+            block_depth: Default::default(),
+            data_size: Default::default(),
+            data: null_mut(),
+            mip_set: null_mut(),
+        }
+    }
+}
+
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Default)]
 pub struct CompressOptions {
     pub size: u32,
     pub use_refinement_steps: bool,
@@ -194,14 +215,14 @@ pub struct CompressOptions {
 }
 
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Default)]
 pub struct AmdCmdSet {
     pub str_command: [c_char; 32usize],
     pub str_parameter: [c_char; 16usize],
 }
 
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Default)]
 pub struct KernelPerformanceStats {
     pub compute_shader_elapsed_ms: f32,
     pub num_blocks: c_int,
@@ -214,6 +235,16 @@ pub struct KernelDeviceInfo {
     pub device_name: [c_char; 256usize],
     pub version: [c_char; 128usize],
     pub max_ucores: c_int,
+}
+
+impl Default for KernelDeviceInfo {
+    fn default() -> Self {
+        Self {
+            device_name: [0; 256],
+            version: [0; 128],
+            max_ucores: Default::default(),
+        }
+    }
 }
 
 pub type PrintInfoStr = ::std::option::Option<unsafe extern "C" fn(InfoStr: *const c_char)>;
